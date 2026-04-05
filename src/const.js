@@ -10,4 +10,4 @@ const POINT_TYPES = [
   'restaurant'
 ];
 
-export {POINT_TYPES};
+export { POINT_TYPES };

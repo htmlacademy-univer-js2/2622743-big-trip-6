@@ -1,7 +1,7 @@
 import BoardPresenter from './presenter/board-presenter.js';
 import FilterView from './view/filter-view.js';
 import PointsModel from './model/points-model.js';
-import { render } from './render.js';
+import { render } from './framework/render.js';
 
 const siteMainElement = document.querySelector('.page-main');
 const siteHeaderElement = document.querySelector('.page-header');

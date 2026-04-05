@@ -27,6 +27,7 @@ const createPoint = (id) => {
   };
 };
 
-const mockPoints = Array.from({length: 10}, (_, index) => createPoint(index + 1));
+const mockPoints = Array.from({length: getRandomNumber(0, 10)}, (_, index) => createPoint(index + 1));
+
 
 export { mockPoints };
