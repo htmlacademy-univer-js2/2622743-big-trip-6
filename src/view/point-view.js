@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import duration from 'dayjs/plugin/duration';
 
 dayjs.extend(duration);
@@ -81,26 +81,28 @@ function createPointTemplate(point, destinations, offers) {
   );
 }
 
-export default class PointView {
-  constructor({ pointDestinations, pointOffers, point }) {
-    this.pointDestinations = pointDestinations;
-    this.pointOffers = pointOffers;
-    this.point = point;
+export default class PointView extends AbstractView {
+  #point = null;
+  #pointDestinations = null;
+  #pointOffers = null;
+  #handleEditClick = null;
+
+  constructor({point, pointDestinations, pointOffers, onEditClick}) {
+    super();
+    this.#point = point;
+    this.#pointDestinations = pointDestinations;
+    this.#pointOffers = pointOffers;
+    this.#handleEditClick = onEditClick;
+
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
   }
 
-  getTemplate() {
-    return createPointTemplate(this.point, this.pointDestinations, this.pointOffers);
+  get template() {
+    return createPointTemplate(this.#point, this.#pointDestinations, this.#pointOffers);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 }
