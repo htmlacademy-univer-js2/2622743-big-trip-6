@@ -1,11 +1,11 @@
 const DESTINATIONS = [
-    'Amsterdam',
-    'Geneva',
-    'Chamonix',
-    'Paris',
-    'London',
-    'Berlin'
-]
+  'Amsterdam',
+  'Geneva',
+  'Chamonix',
+  'Paris',
+  'London',
+  'Berlin'
+];
 
 const DESCRIPTIONS = [
   'First variable line of description',
@@ -14,6 +14,6 @@ const DESCRIPTIONS = [
   'Wow that the fourth variable line of description',
   'FInally, fifth variable line of description',
   'etc...',
-]
+];
 
-export { DESTINATIONS, DESCRIPTIONS }
+export { DESTINATIONS, DESCRIPTIONS };

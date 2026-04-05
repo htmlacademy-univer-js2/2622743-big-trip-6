@@ -1,42 +1,42 @@
-import dayjs from 'dayjs'
-import { createElement } from '../render.js'
-import duration from 'dayjs/plugin/duration'
+import dayjs from 'dayjs';
+import { createElement } from '../render.js';
+import duration from 'dayjs/plugin/duration';
 
-dayjs.extend(duration)
-const DATE_FORMAT = 'MMM D'
-const TIME_FORMAT = 'HH:mm'
+dayjs.extend(duration);
+const DATE_FORMAT = 'MMM D';
+const TIME_FORMAT = 'HH:mm';
 
 function formatDuration(dateFrom, dateTo) {
-  const start = dayjs(dateFrom)
-  const end = dayjs(dateTo)
-  const diff = end.diff(start)
-  const durationObj = dayjs.duration(diff)
+  const start = dayjs(dateFrom);
+  const end = dayjs(dateTo);
+  const diff = end.diff(start);
+  const durationObj = dayjs.duration(diff);
 
-  const days = durationObj.days()
-  const hours = durationObj.hours()
-  const minutes = durationObj.minutes()
+  const days = durationObj.days();
+  const hours = durationObj.hours();
+  const minutes = durationObj.minutes();
 
-  let formattedDuration = ''
+  let formattedDuration = '';
   if (days > 0) {
-    formattedDuration += `${days}D `
+    formattedDuration += `${days}D `;
   }
   if (days > 0 || hours > 0) {
-    formattedDuration += `${hours}H `
+    formattedDuration += `${hours}H `;
   }
-  formattedDuration += `${minutes}M`
-  return formattedDuration
+  formattedDuration += `${minutes}M`;
+  return formattedDuration;
 }
 
 function createPointTemplate(point, destinations, offers) {
-  const {basePrice, dateFrom, dateTo, isFavorite, type} = point
-  const pointDestination = destinations.find((dest) => dest.id === point.destination)
-  const pointTypeOffers = offers.find((offer) => offer.type === type)
-  const pointOffers = pointTypeOffers ? pointTypeOffers.offers : []
-  const selectedOffers = pointOffers.filter((offer) => point.offers.includes(offer.id))
+  const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
+  const pointDestination = destinations.find((dest) => dest.id === point.destination);
+  const pointTypeOffers = offers.find((offer) => offer.type === type);
+  const pointOffers = pointTypeOffers ? pointTypeOffers.offers : [];
+  const selectedOffers = pointOffers.filter((offer) => point.offers.includes(offer.id));
 
   const favoriteClassName = isFavorite
     ? 'event__favorite-btn--active'
-    : ''
+    : '';
 
   return (
     `<li class="trip-events__item">
@@ -83,9 +83,9 @@ function createPointTemplate(point, destinations, offers) {
 
 export default class PointView {
   constructor({ pointDestinations, pointOffers, point }) {
-    this.pointDestinations = pointDestinations
-    this.pointOffers = pointOffers
-    this.point = point
+    this.pointDestinations = pointDestinations;
+    this.pointOffers = pointOffers;
+    this.point = point;
   }
 
   getTemplate() {

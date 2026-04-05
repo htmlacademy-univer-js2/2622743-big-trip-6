@@ -1,16 +1,16 @@
-import { getRandomNumber, getRandomArrayElement } from '../utils.js'
-import { POINT_TYPES } from '../const.js'
-import { mockDestinations } from './destination.js'
-import { mockOffers } from './offer.js'
+import { getRandomNumber, getRandomArrayElement } from '../utils.js';
+import { POINT_TYPES } from '../const.js';
+import { mockDestinations } from './destination.js';
+import { mockOffers } from './offer.js';
 
 const createPoint = (id) => {
-  const type = getRandomArrayElement(POINT_TYPES)
-  const destination = getRandomArrayElement(mockDestinations).id
-  const offersByType = mockOffers.find((item) => item.type === type).offers
+  const type = getRandomArrayElement(POINT_TYPES);
+  const destination = getRandomArrayElement(mockDestinations).id;
+  const offersByType = mockOffers.find((item) => item.type === type).offers;
   const offerIds = offersByType.length
     ? Array.from({length: getRandomNumber(0, offersByType.length)}, () => getRandomArrayElement(offersByType).id)
-    : []
-  const uniqueOfferIds = [...new Set(offerIds)]
+    : [];
+  const uniqueOfferIds = [...new Set(offerIds)];
 
   return {
     basePrice: getRandomNumber(100, 1000),
@@ -21,9 +21,9 @@ const createPoint = (id) => {
     isFavorite: Boolean(getRandomNumber(0, 1)),
     offers: uniqueOfferIds,
     type
-  }
-}
+  };
+};
 
-const mockPoints = Array.from({length: 10}, (_, index) => createPoint(index + 1))
+const mockPoints = Array.from({length: 10}, (_, index) => createPoint(index + 1));
 
-export { mockPoints }
+export { mockPoints };

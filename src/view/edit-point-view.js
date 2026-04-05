@@ -1,8 +1,8 @@
-import dayjs from 'dayjs'
-import { createElement } from '../render.js'
-import { POINT_TYPES } from '../const.js'
+import dayjs from 'dayjs';
+import { createElement } from '../render.js';
+import { POINT_TYPES } from '../const.js';
 
-const DATE_FORMAT = 'DD/MM/YY HH:mm'
+const DATE_FORMAT = 'DD/MM/YY HH:mm';
 
 const BLANK_POINT = {
   basePrice: 0,
@@ -12,27 +12,27 @@ const BLANK_POINT = {
   isFavorite: false,
   offers: [],
   type: 'flight'
-}
+};
 
 function createEditPointTemplate(point, destinations, offers) {
-  const {basePrice, dateFrom, dateTo, type} = point
-  const pointDestination = destinations.find((dest) => dest.id === point.destination)
-  const pointTypeOffers = offers.find((offer) => offer.type === type)
-  const currentPointOffers = pointTypeOffers ? pointTypeOffers.offers : []
+  const {basePrice, dateFrom, dateTo, type} = point;
+  const pointDestination = destinations.find((dest) => dest.id === point.destination);
+  const pointTypeOffers = offers.find((offer) => offer.type === type);
+  const currentPointOffers = pointTypeOffers ? pointTypeOffers.offers : [];
 
-  const destinationName = pointDestination ? pointDestination.name : ''
-  const destinationDescription = pointDestination ? pointDestination.description : ''
-  const destinationPictures = pointDestination ? pointDestination.pictures : []
-  
+  const destinationName = pointDestination ? pointDestination.name : '';
+  const destinationDescription = pointDestination ? pointDestination.description : '';
+  const destinationPictures = pointDestination ? pointDestination.pictures : [];
+
   const typeList = POINT_TYPES.map((pointType) => `
     <div class="event__type-item">
       <input id="event-type-${pointType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${pointType}" ${pointType === type ? 'checked' : ''}>
       <label class="event__type-label  event__type-label--${pointType}" for="event-type-${pointType}-1">${pointType.charAt(0).toUpperCase() + pointType.slice(1)}</label>
     </div>
-  `).join('')
+  `).join('');
 
   const offersList = currentPointOffers.map((offer) => {
-    const isChecked = point.offers.includes(offer.id) ? 'checked' : ''
+    const isChecked = point.offers.includes(offer.id) ? 'checked' : '';
     return `
       <div class="event__offer-selector">
         <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}-1" type="checkbox" name="event-offer-${offer.id}" ${isChecked}>
@@ -42,14 +42,14 @@ function createEditPointTemplate(point, destinations, offers) {
           <span class="event__offer-price">${offer.price}</span>
         </label>
       </div>
-    `
-  }).join('')
+    `;
+  }).join('');
 
-  const destinationOptions = destinations.map((dest) => `<option value="${dest.name}"></option>`).join('')
+  const destinationOptions = destinations.map((dest) => `<option value="${dest.name}"></option>`).join('');
 
   const picturesList = destinationPictures.map((pic) => `
     <img class="event__photo" src="${pic.src}" alt="${pic.description}">
-  `).join('')
+  `).join('');
 
   return (
     `<li class="trip-events__item">
@@ -133,24 +133,24 @@ function createEditPointTemplate(point, destinations, offers) {
 
 export default class EditPointView {
   constructor({ pointDestinations, pointOffers, point = BLANK_POINT}) {
-    this.pointDestinations = pointDestinations
-    this.pointOffers = pointOffers
-    this.point = point
+    this.pointDestinations = pointDestinations;
+    this.pointOffers = pointOffers;
+    this.point = point;
   }
 
   getTemplate() {
-    return createEditPointTemplate(this.point, this.pointDestinations, this.pointOffers)
+    return createEditPointTemplate(this.point, this.pointDestinations, this.pointOffers);
   }
 
   getElement() {
     if (!this.element) {
-      this.element = createElement(this.getTemplate())
+      this.element = createElement(this.getTemplate());
     }
 
-    return this.element
+    return this.element;
   }
 
   removeElement() {
-    this.element = null
+    this.element = null;
   }
 }
