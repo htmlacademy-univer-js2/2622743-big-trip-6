@@ -10,4 +10,12 @@ const POINT_TYPES = [
   'restaurant'
 ];
 
-export { POINT_TYPES };
+const SortType = {
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFER: 'offer',
+};
+
+export { POINT_TYPES, SortType };

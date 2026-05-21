@@ -12,5 +12,11 @@ Thumbs.db
 node_modules/
 
 # Собранные файлы (допишите самостоятельно)
+<<<<<<< HEAD
 build/
 bundle/
+=======
+/bundle/
+.cache/
+.parcel-cache/
+>>>>>>> module1-task2
