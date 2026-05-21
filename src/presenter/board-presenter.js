@@ -4,12 +4,14 @@ import EmptyListView from '../view/empty-list-view.js';
 import PointPresenter from './point-presenter.js';
 import {render} from '../framework/render.js';
 import {updateItem} from '../utils.js';
+import {SortType} from '../const.js';
+import {sortPointDay, sortPointTime, sortPointPrice} from '../utils/sort.js';
 
 export default class BoardPresenter {
   #boardContainer = null;
   #pointsModel = null;
 
-  #sortComponent = new SortView();
+  #sortComponent = null;
   #eventListComponent = new EventListView();
   #emptyListComponent = new EmptyListView();
 
@@ -17,6 +19,7 @@ export default class BoardPresenter {
   #boardDestinations = [];
   #boardOffers = [];
   #pointPresenters = new Map();
+  #currentSortType = SortType.DAY;
 
   constructor({ boardContainer, pointsModel }) {
     this.#boardContainer = boardContainer;
@@ -28,6 +31,8 @@ export default class BoardPresenter {
     this.#boardDestinations = [...this.#pointsModel.destinations];
     this.#boardOffers = [...this.#pointsModel.offers];
 
+    this.#boardPoints.sort(sortPointDay);
+    
     this.#renderBoard();
   }
 
@@ -40,6 +45,30 @@ export default class BoardPresenter {
     this.#pointPresenters.get(updatedPoint.id).init(updatedPoint, this.#boardDestinations, this.#boardOffers);
   };
 
+    #sortPoints(sortType) {
+    switch (sortType) {
+      case SortType.TIME:
+        this.#boardPoints.sort(sortPointTime);
+        break;
+      case SortType.PRICE:
+        this.#boardPoints.sort(sortPointPrice);
+        break;
+      default:
+        this.#boardPoints.sort(sortPointDay);
+    }
+
+    this.#currentSortType = sortType;
+  }
+
+  #handleSortTypeChange = (sortType) => {
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+
+    this.#sortPoints(sortType);
+    this.#clearPointList();
+    this.#renderPoints();
+  };
 
   #renderPoint(point) {
     const pointPresenter = new PointPresenter(this.#eventListComponent.element, this.#handlePointChange, this.#handleModeChange);
@@ -56,6 +85,10 @@ export default class BoardPresenter {
   }
 
   #renderSort() {
+    this.#sortComponent = new SortView({
+      onSortTypeChange: this.#handleSortTypeChange
+    });
+
     render(this.#sortComponent, this.#boardContainer);
   }
 
