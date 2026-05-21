@@ -7,4 +7,8 @@ const getRandomNumber = (x = 0, y = 1) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
-export { getRandomNumber, getRandomArrayElement };
+function updateItem(items, update) {
+  return items.map((item) => item.id === update.id ? update : item);
+}
+
+export { getRandomNumber, getRandomArrayElement, updateItem };
