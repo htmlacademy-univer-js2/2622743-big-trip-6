@@ -1,31 +1,6 @@
-import dayjs from 'dayjs';
 import AbstractView from '../framework/view/abstract-view.js';
-import duration from 'dayjs/plugin/duration';
 
-dayjs.extend(duration);
-const DATE_FORMAT = 'MMM D';
-const TIME_FORMAT = 'HH:mm';
-
-function formatDuration(dateFrom, dateTo) {
-  const start = dayjs(dateFrom);
-  const end = dayjs(dateTo);
-  const diff = end.diff(start);
-  const durationObj = dayjs.duration(diff);
-
-  const days = durationObj.days();
-  const hours = durationObj.hours();
-  const minutes = durationObj.minutes();
-
-  let formattedDuration = '';
-  if (days > 0) {
-    formattedDuration += `${days}D `;
-  }
-  if (days > 0 || hours > 0) {
-    formattedDuration += `${hours}H `;
-  }
-  formattedDuration += `${minutes}M`;
-  return formattedDuration;
-}
+import {humanizePointDate, humanizePointTime, getPointDuration} from '../utils/date.js';
 
 function createPointTemplate(point, destinations, offers) {
   const {basePrice, dateFrom, dateTo, isFavorite, type} = point;
@@ -41,18 +16,18 @@ function createPointTemplate(point, destinations, offers) {
   return (
     `<li class="trip-events__item">
       <div class="event">
-        <time class="event__date" datetime="${dateFrom}">${dayjs(dateFrom).format(DATE_FORMAT)}</time>
+        <time class="event__date" datetime="${dateFrom}">${humanizePointDate(dateFrom)}</time>
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
         </div>
         <h3 class="event__title">${type} ${pointDestination ? pointDestination.name : ''}</h3>
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="${dateFrom}">${dayjs(dateFrom).format(TIME_FORMAT)}</time>
+            <time class="event__start-time" datetime="${dateFrom}">${humanizePointTime(dateFrom)}</time>
             &mdash;
-            <time class="event__end-time" datetime="${dateTo}">${dayjs(dateTo).format(TIME_FORMAT)}</time>
+            <time class="event__end-time" datetime="${dateTo}">${humanizePointTime(dateTo)}</time>
           </p>
-          <p class="event__duration">${formatDuration(dateFrom, dateTo)}</p>
+          <p class="event__duration">${getPointDuration(dateFrom, dateTo)}</p>
         </div>
         <p class="event__price">
           &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
