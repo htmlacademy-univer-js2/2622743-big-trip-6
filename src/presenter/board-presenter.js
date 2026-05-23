@@ -165,7 +165,7 @@ export default class BoardPresenter {
   }
 
   #renderListEmpty() {
-    this.#listEmptyComponent = new ListEmptyView(this.#filterType);
+    this.#listEmptyComponent = new EmptyListView(this.#filterType);
     render(this.#listEmptyComponent, this.#boardContainer);
   }
 

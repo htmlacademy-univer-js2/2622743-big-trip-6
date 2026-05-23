@@ -38,6 +38,7 @@ export default class PointsModel extends Observable {
       this._notify(UpdateType.INIT, {isError: true});
     }
   }
+
   async updatePoint(updateType, update) {
     const index = this.#points.findIndex((point) => point.id === update.id);
 
@@ -82,7 +83,7 @@ export default class PointsModel extends Observable {
 
     this._notify(updateType);
   }
-  
+
   #adaptToClient = (point) => {
     const adaptedPoint = {...point,
       basePrice: point['base_price'],
