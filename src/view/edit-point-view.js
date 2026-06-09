@@ -251,6 +251,14 @@ export default class EditPointView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
+
+    const {destination, basePrice, dateFrom, dateTo} = this._state;
+
+    if (!destination || !basePrice || !dateFrom || !dateTo) {
+      this.shake();
+      return;
+    }
+
     this.#handleFormSubmit(EditPointView.parseStateToPoint(this._state));
   };
 
