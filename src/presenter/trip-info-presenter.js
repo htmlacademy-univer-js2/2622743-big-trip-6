@@ -3,6 +3,8 @@ import {render, remove, RenderPosition, replace} from '../framework/render.js';
 import {sortPointDay} from '../utils/sort.js';
 import {formatTripDates} from '../utils/date.js';
 
+const MAX_VISIBLE_CITIES = 3;
+
 export default class TripInfoPresenter {
   #tripInfoContainer = null;
   #pointsModel = null;
@@ -50,12 +52,12 @@ export default class TripInfoPresenter {
     const startPoint = points[0];
     const endPoint = points[points.length - 1];
     const cityNames = points.map((point) => {
-      const destination = this.#pointsModel.destinations.find((dest) => dest.id === point.destination);
+      const destination = this.#pointsModel.getDestinationById(point.destination);
       return destination ? destination.name : '';
     });
 
     let routeTitle = '';
-    if (cityNames.length > 3) {
+    if (cityNames.length > MAX_VISIBLE_CITIES) {
       routeTitle = `${cityNames[0]} &mdash; ... &mdash; ${cityNames[cityNames.length - 1]}`;
     } else {
       routeTitle = cityNames.join(' &mdash; ');
@@ -66,7 +68,7 @@ export default class TripInfoPresenter {
     points.forEach((point) => {
       totalCost += point.basePrice;
 
-      const offers = this.#pointsModel.offers.find((o) => o.type === point.type)?.offers || [];
+      const offers = this.#pointsModel.getOffersByType(point.type);
       const selectedOffers = offers.filter((offer) => point.offers.includes(offer.id));
 
       selectedOffers.forEach((offer) => {
