@@ -14,13 +14,21 @@ const BLANK_POINT = {
   type: 'flight'
 };
 
+function getDestinationById(destinations, id) {
+  return destinations.find((destination) => destination.id === id);
+}
+
+function getOffersByType(offers, type) {
+  const offerGroup = offers.find((offer) => offer.type === type);
+  return offerGroup ? offerGroup.offers : [];
+}
+
 function createEditPointTemplate(point, destinations, offers) {
   const {basePrice, dateFrom, dateTo, type, isDisabled, isSaving, isDeleting, id} = point;
   const pointId = id || 'new';
 
-  const pointDestination = destinations.find((dest) => dest.id === point.destination);
-  const pointTypeOffers = offers.find((offer) => offer.type === type);
-  const currentPointOffers = pointTypeOffers ? pointTypeOffers.offers : [];
+  const pointDestination = getDestinationById(destinations, point.destination);
+  const currentPointOffers = getOffersByType(offers, type);
 
   const destinationName = pointDestination ? pointDestination.name : '';
   const destinationDescription = pointDestination ? pointDestination.description : '';
@@ -48,10 +56,10 @@ function createEditPointTemplate(point, destinations, offers) {
     `;
   }).join('');
 
-  const destinationOptions = destinations.map((dest) => `<option value="${dest.name}"></option>`).join('');
+  const destinationOptions = destinations.map((destination) => `<option value="${destination.name}"></option>`).join('');
 
-  const picturesList = destinationPictures.map((pic) => `
-    <img class="event__photo" src="${pic.src}" alt="${pic.description}">
+  const picturesList = destinationPictures.map((picture) => `
+    <img class="event__photo" src="${picture.src}" alt="${picture.description}">
   `).join('');
 
   let resetButtonLabel;
@@ -219,7 +227,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
-    const selectedDestination = this.#pointDestinations.find((dest) => dest.name === evt.target.value);
+    const selectedDestination = this.#pointDestinations.find((destination) => destination.name === evt.target.value);
 
     if (!selectedDestination) {
       evt.target.value = '';
