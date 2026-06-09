@@ -24,7 +24,7 @@ function createFilterTemplate(filters, currentFilterType) {
     .map((filter) => createFilterItemTemplate(filter, currentFilterType))
     .join('');
 
-      return (
+  return (
     `<form class="trip-filters" action="#" method="get">
       ${filterItemsTemplate}
       <button class="visually-hidden" type="submit">Accept filter</button>
@@ -49,7 +49,7 @@ export default class FilterView extends AbstractView {
   get template() {
     return createFilterTemplate(this.#filters, this.#currentFilterType);
   }
-  
+
   #filterTypeChangeHandler = (evt) => {
     evt.preventDefault();
     this.#handleFilterTypeChange(evt.target.value);
